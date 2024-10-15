@@ -1,22 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LightController : MonoBehaviour
 {
-    public GameObject lightObject; 
-    private GameSettings gameSettings; 
+    public GameObject lightObject;
+    private GameSettings gameSettings;
+    private bool lightOn = false;
+    private float lightDuration;
 
     private void Start()
     {
-        gameSettings = FindObjectOfType<GameSettings>(); 
-        lightObject.SetActive(false); 
+        gameSettings = FindObjectOfType<GameSettings>();
+        gameSettings.SetDifficulty();
+        lightObject.SetActive(false);
+        lightDuration = gameSettings.GetLightDuration();
     }
 
     private void Update()
     {
-        
-        if (Input.GetDown(Input.Button.One)) 
+        if (!lightOn && (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.A)))
         {
             ToggleLight();
         }
@@ -24,14 +26,19 @@ public class LightController : MonoBehaviour
 
     private void ToggleLight()
     {
-        if (gameSettings.lightUses > 0) 
+        if (gameSettings.lightUses > 0)
         {
-            lightObject.SetActive(!lightObject.activeSelf); 
-
-            if (lightObject.activeSelf) 
-            {
-                gameSettings.lightUses--;
-            }
+            lightObject.SetActive(true);
+            lightOn = true;
+            gameSettings.lightUses--;
+            StartCoroutine(TurnOffLightAfterDelay());
         }
+    }
+
+    private IEnumerator TurnOffLightAfterDelay()
+    {
+        yield return new WaitForSeconds(lightDuration);
+        lightObject.SetActive(false);
+        lightOn = false;
     }
 }

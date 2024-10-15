@@ -30,4 +30,9 @@ public class GameSettings : MonoBehaviour
                 break;
         }
     }
+
+    public float GetLightDuration()
+    {
+        return lightDuration;
+    }
 }
