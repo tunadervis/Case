@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class GameSettings : MonoBehaviour
@@ -11,6 +12,8 @@ public class GameSettings : MonoBehaviour
     public int lightUses;
     [HideInInspector]
     public float lightDuration;
+
+    public static event Action OnDifficultyChanged; 
 
     public void SetDifficulty()
     {
@@ -29,6 +32,9 @@ public class GameSettings : MonoBehaviour
                 lightDuration = 5f;
                 break;
         }
+
+        
+        OnDifficultyChanged?.Invoke();
     }
 
     public float GetLightDuration()
