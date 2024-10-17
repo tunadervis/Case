@@ -13,7 +13,7 @@ public class GameSettings : MonoBehaviour
     [HideInInspector]
     public float lightDuration;
 
-    public static event Action OnDifficultyChanged; 
+    public static event Action OnDifficultyChanged;
 
     public void SetDifficulty()
     {
@@ -33,7 +33,7 @@ public class GameSettings : MonoBehaviour
                 break;
         }
 
-        
+
         OnDifficultyChanged?.Invoke();
     }
 

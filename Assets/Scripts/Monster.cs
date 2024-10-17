@@ -22,8 +22,6 @@ public class Monster : MonoBehaviour
         Vector3 directionToPlayer = player.position - transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
 
-        Debug.Log("Distance to Player: " + distanceToPlayer);
-
         
         if (IsPlayerLookingAtMonster())
         {
@@ -66,8 +64,8 @@ public class Monster : MonoBehaviour
 
     private void LoseGame()
     {
-        
-        // SceneManager.LoadScene("LoseScene");
+
+        Application.Quit();
         Debug.Log("Kaybettin!");
     }
 }

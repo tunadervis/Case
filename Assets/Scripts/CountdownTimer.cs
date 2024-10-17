@@ -1,15 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
-    public TMP_Text timerText; 
+    public TMP_Text timerText;
     private float timeRemaining;
     private bool isGameOver = false;
     private GameSettings gameSettings;
+
+    public GameObject monsterPrefab;
+    public Transform player;
+    public Animator monsterAnimator;
+    public float attackDistance = 1f;
 
     private void Start()
     {
@@ -23,13 +27,13 @@ public class CountdownTimer : MonoBehaviour
         switch (gameSettings.difficulty)
         {
             case GameSettings.Difficulty.Easy:
-                timeRemaining = 15 * 60f; 
+                timeRemaining = 15 * 60f;
                 break;
             case GameSettings.Difficulty.Medium:
-                timeRemaining = 10 * 60f; 
+                timeRemaining = 10 * 60f;
                 break;
             case GameSettings.Difficulty.Hard:
-                timeRemaining = 7 * 60f; 
+                timeRemaining = 7 * 60f;
                 break;
         }
     }
@@ -60,7 +64,45 @@ public class CountdownTimer : MonoBehaviour
     {
         isGameOver = true;
         
-        Debug.Log("Süre bitti! Oyunu kaybettin.");
-        
+
+        SpawnMonster();
+        StartCoroutine(MonsterChasePlayer());
+    }
+
+    private void SpawnMonster()
+    {
+        monsterPrefab.SetActive(true); 
+    }
+
+    private IEnumerator MonsterChasePlayer()
+    {
+        while (!isGameOver)
+        {
+            Vector3 direction = (player.position - monsterPrefab.transform.position).normalized;
+            monsterPrefab.transform.position += direction * Time.deltaTime * 3f;
+
+            float distanceToPlayer = Vector3.Distance(monsterPrefab.transform.position, player.position);
+
+            if (distanceToPlayer <= attackDistance)
+            {
+                monsterAnimator.SetTrigger("Attack");
+
+                yield return new WaitForEndOfFrame();
+                AnimatorStateInfo animInfo = monsterAnimator.GetCurrentAnimatorStateInfo(0);
+
+                
+                while (animInfo.IsName("Attack") && animInfo.normalizedTime < 1.0f)
+                {
+                    yield return null;
+                    animInfo = monsterAnimator.GetCurrentAnimatorStateInfo(0); 
+                }
+
+                Debug.Log("Süre bitti! Oyunu kaybettin.");
+                Application.Quit();
+                yield break;
+            }
+            Debug.Log("Süre bitti! Oyunu kaybettin22.");
+            yield return null;
+        }
     }
 }

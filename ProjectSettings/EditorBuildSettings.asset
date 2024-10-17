@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 0e44a01908a93794f93228eda5a75f3d
+  - enabled: 1
     path: Assets/Scenes/MidnightEscape.unity
     guid: ceb73e646ed0ab04d9243b3dc50fcf3f
   m_configObjects:
