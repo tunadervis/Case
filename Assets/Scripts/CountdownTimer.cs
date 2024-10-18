@@ -97,11 +97,11 @@ public class CountdownTimer : MonoBehaviour
                     animInfo = monsterAnimator.GetCurrentAnimatorStateInfo(0); 
                 }
 
-                Debug.Log("Süre bitti! Oyunu kaybettin.");
-                Application.Quit();
+                
+                SceneManager.LoadScene("Finish");
                 yield break;
             }
-            Debug.Log("Süre bitti! Oyunu kaybettin22.");
+            
             yield return null;
         }
     }

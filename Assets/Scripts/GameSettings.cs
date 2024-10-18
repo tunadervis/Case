@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
+    public static GameSettings Instance; 
+
     public enum Difficulty { Easy, Medium, Hard }
     public Difficulty difficulty;
 
@@ -13,7 +12,20 @@ public class GameSettings : MonoBehaviour
     [HideInInspector]
     public float lightDuration;
 
-    public static event Action OnDifficultyChanged;
+    public static event System.Action OnDifficultyChanged;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void SetDifficulty()
     {
@@ -32,7 +44,6 @@ public class GameSettings : MonoBehaviour
                 lightDuration = 5f;
                 break;
         }
-
 
         OnDifficultyChanged?.Invoke();
     }

@@ -17,7 +17,14 @@ public class VRSceneTransition : MonoBehaviour
     
     private void OnButtonPressed(SelectEnterEventArgs args)
     {
-        SceneManager.LoadScene(sceneName); 
+        if (sceneName == "Quit")
+        {
+            Application.Quit();
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 
     private void OnDestroy()

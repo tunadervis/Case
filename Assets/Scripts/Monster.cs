@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Monster : MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class Monster : MonoBehaviour
     private void LoseGame()
     {
 
-        Application.Quit();
+        SceneManager.LoadScene("Finish");
         Debug.Log("Kaybettin!");
     }
 }

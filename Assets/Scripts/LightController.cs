@@ -13,9 +13,11 @@ public class LightController : MonoBehaviour
     private float originalIntensity;
     private bool jumpscareTriggered = false;
 
-    //public InputAction aButtonPress;
     public InputActionReference aButtonPress;
     public bool isButtonPressed = false;
+
+    private int jumpscareCount = 0;  
+    private int maxJumpscares = 2;   
 
     private void Start()
     {
@@ -29,7 +31,6 @@ public class LightController : MonoBehaviour
         lightDuration = gameSettings.GetLightDuration();
 
         aButtonPress.action.started += ButtonPressFunc;
-        //aButtonPress.action.canceled += ButtonPressFuncXD;
     }
 
     private void Update()
@@ -45,12 +46,8 @@ public class LightController : MonoBehaviour
         if (!lightOn)
         {
             ToggleLight();
-        }        
+        }
     }
-    //void ButtonPressFuncXD(InputAction.CallbackContext context)
-    //{
-    //    ToggleLight();
-    //}
 
     private void ToggleLight()
     {
@@ -62,7 +59,7 @@ public class LightController : MonoBehaviour
             StartCoroutine(TurnOffLightAfterDelay());
 
             
-            if (gameSettings.lightUses == 3 && !jumpscareTriggered)
+            if (!jumpscareTriggered && jumpscareCount < maxJumpscares && Random.value < 0.5f)  
             {
                 TriggerJumpscare();
             }
@@ -83,26 +80,25 @@ public class LightController : MonoBehaviour
     private void TriggerJumpscare()
     {
         jumpscareTriggered = true;
+        jumpscareCount++;  
 
         lightComponent.intensity = 5;
         jumpscareObject.SetActive(true);
         jumpscareObject.GetComponent<AudioSource>().Play();
 
-        
         StartCoroutine(DeactivateJumpscareAfterDelay());
     }
 
     private IEnumerator DeactivateJumpscareAfterDelay()
     {
-        yield return new WaitForSeconds(1f);  
-        jumpscareObject.SetActive(false);    
+        yield return new WaitForSeconds(1f);
+        jumpscareObject.SetActive(false);
+        jumpscareTriggered = false;
     }
 
     private void ResetLightAndJumpscare()
     {
         lightComponent.intensity = originalIntensity;
-
-        
         jumpscareTriggered = false;
     }
 }
