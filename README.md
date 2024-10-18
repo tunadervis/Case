@@ -1,5 +1,7 @@
 # Midnight Escape
 [Gameplay](https://youtu.be/_gR-0danC1c)
+
+
 Bu proje, bir okulda geçen ve oyuncunun çeşitli bulmacaları çözerek canavardan kaçmaya çalıştığı bir VR puzzle oyunudur. Oyuncular sınırlı süre içinde hayatta kalmaya çalışırken zekalarını ve cesaretlerini test ederler. Oyun, VR gözlüğü kullanılarak oynanmakta ve farklı zorluk seviyeleri sunmaktadır.
 
 Oyun Hikayesi
